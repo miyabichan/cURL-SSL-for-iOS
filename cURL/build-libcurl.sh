@@ -34,7 +34,7 @@ OPENSSL="${PWD}/../OpenSSL"							  #
 CURRENTPATH=`pwd`
 
 set -e
-if [ ! -e libcurl-${VERSION}.tar.gz ]; then
+if [ ! -e curl-${VERSION}.tar.gz ]; then
 	echo "Downloading curl-${VERSION}.tar.gz"
     curl -O http://curl.haxx.se/download/curl-${VERSION}.tar.gz
 else

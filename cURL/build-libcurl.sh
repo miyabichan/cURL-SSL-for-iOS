@@ -21,9 +21,9 @@
 ###########################################################################
 #  Change values here							  #
 #									  #
-VERSION="7.21.5"							  #
-SDKVERSION="4.3"							  #
-OPENSSL="${PWD}/../OpenSSL"							  #
+VERSION="7.21.5"								  #
+SDKVERSION="4.3"								  #
+OPENSSL="${PWD}/../OpenSSL"						  #
 #									  #
 ###########################################################################
 #									  #
@@ -32,6 +32,7 @@ OPENSSL="${PWD}/../OpenSSL"							  #
 ###########################################################################
 
 CURRENTPATH=`pwd`
+DEVELOPER=`xcode-select --print-path`
 
 set -e
 if [ ! -e curl-${VERSION}.tar.gz ]; then
@@ -55,68 +56,80 @@ cd "${CURRENTPATH}/src/curl-${VERSION}"
 
 ############
 # iPhone Simulator
-echo "Building libcurl for iPhoneSimulator ${SDKVERSION} i386"
+ARCH="i386"
+PLATFORM="iPhoneSimulator"
+echo "Building libcurl for ${PLATFORM} ${SDKVERSION} ${ARCH}"
 echo "Please stand by..."
 
-export CC="/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/bin/gcc -arch i386"
-export CFLAGS="-arch i386 -isysroot /Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator${SDKVERSION}.sdk -I${OPENSSL}/include -L${OPENSSL}"
-mkdir -p "${CURRENTPATH}/bin/iPhoneSimulator${SDKVERSION}.sdk"
+export CC="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer/usr/bin/gcc"
+export CFLAGS="-arch ${ARCH} -isysroot ${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer/SDKs/${PLATFORM}${SDKVERSION}.sdk -I${OPENSSL}/include -L${OPENSSL}"
+mkdir -p "${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}.sdk"
 
-LOG="${CURRENTPATH}/bin/iPhoneSimulator${SDKVERSION}.sdk/build-libcurl-${VERSION}.log"
+LOG="${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}.sdk/build-libcurl-${VERSION}.log"
 
-echo "Make libcurl for iPhoneSimulator ${SDKVERSION} i386"
+echo "Configure libcurl for ${PLATFORM} ${SDKVERSION} ${ARCH}"
 
-./configure -prefix=${CURRENTPATH}/bin/iPhoneSimulator${SDKVERSION}.sdk --disable-shared -with-random=/dev/urandom --with-ssl > "${LOG}" 2>&1
+./configure -prefix=${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}.sdk -disable-shared -with-random=/dev/urandom --with-ssl > "${LOG}" 2>&1
+
+echo "Make libcurl for ${PLATFORM} ${SDKVERSION} ${ARCH}"
 
 make >> "${LOG}" 2>&1
 make install >> "${LOG}" 2>&1
 make clean >> "${LOG}" 2>&1
 
-echo "Building libcurl for iPhoneSimulator ${SDKVERSION} i386, finished"
+echo "Building libcurl for ${PLATFORM} ${SDKVERSION} ${ARCH}, finished"
 #############
 
 #############
 # iPhoneOS armv6
-echo "Building libcurl for iPhoneOS ${SDKVERSION} armv6"
+ARCH="armv6"
+PLATFORM="iPhoneOS"
+echo "Building libcurl for ${PLATFORM} ${SDKVERSION} ${ARCH}"
 echo "Please stand by..."
 
-export CC="/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc -arch armv6"
-export CFLAGS="-arch armv6 -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS${SDKVERSION}.sdk -I${OPENSSL}/include -L${OPENSSL}"
-mkdir -p "${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv6.sdk"
+export CC="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer/usr/bin/gcc"
+export CFLAGS="-arch ${ARCH} -isysroot ${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer/SDKs/${PLATFORM}${SDKVERSION}.sdk -I${OPENSSL}/include -L${OPENSSL}"
+mkdir -p "${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk"
 
-LOG="${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv6.sdk/build-libcurl-${VERSION}.log"
+LOG="${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk/build-libcurl-${VERSION}.log"
 
-echo "Make libcurl for iPhoneOS ${SDKVERSION} armv6"
+echo "Configure libcurl for ${PLATFORM} ${SDKVERSION} ${ARCH}"
 
-./configure -prefix=${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv6.sdk --host=arm-apple-darwin --disable-shared -with-random=/dev/urandom --with-ssl > "${LOG}" 2>&1
+./configure -prefix=${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk --host=${ARCH}-apple-darwin --disable-shared -with-random=/dev/urandom --with-ssl > "${LOG}" 2>&1
+
+echo "Make libcurl for ${PLATFORM} ${SDKVERSION} ${ARCH}"
 
 make >> "${LOG}" 2>&1
 make install >> "${LOG}" 2>&1
 make clean >> "${LOG}" 2>&1
 
-echo "Building libcurl for iPhoneOS ${SDKVERSION} armv6, finished"
+echo "Building libcurl for ${PLATFORM} ${SDKVERSION} ${ARCH}, finished"
 #############
 
 #############
 # iPhoneOS armv7
-echo "Building libcurl for iPhoneOS ${SDKVERSION} armv7"
+ARCH="armv7"
+PLATFORM="iPhoneOS"
+echo "Building libcurl for ${PLATFORM} ${SDKVERSION} ${ARCH}"
 echo "Please stand by..."
 
-export CC="/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/gcc -arch armv7"
-export CFLAGS="-arch armv7 -isysroot /Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS${SDKVERSION}.sdk -I${OPENSSL}/include -L${OPENSSL}"
-mkdir -p "${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv7.sdk"
+export CC="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer/usr/bin/gcc"
+export CFLAGS="-arch ${ARCH} -isysroot ${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer/SDKs/${PLATFORM}${SDKVERSION}.sdk -I${OPENSSL}/include -L${OPENSSL}"
+mkdir -p "${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk"
 
-LOG="${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv7.sdk/build-libcurl-${VERSION}.log"
+LOG="${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk/build-libcurl-${VERSION}.log"
 
-echo "Make libcurl for iPhoneOS ${SDKVERSION} armv7"
+echo "Configure libcurl for ${PLATFORM} ${SDKVERSION} ${ARCH}"
 
-./configure -prefix=${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv7.sdk --host=arm-apple-darwin --disable-shared -with-random=/dev/urandom --with-ssl > "${LOG}" 2>&1
+./configure -prefix=${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk --host=${ARCH}-apple-darwin --disable-shared -with-random=/dev/urandom --with-ssl > "${LOG}" 2>&1
+
+echo "Make libcurl for ${PLATFORM} ${SDKVERSION} ${ARCH}"
 
 make >> "${LOG}" 2>&1
 make install >> "${LOG}" 2>&1
 make clean >> "${LOG}" 2>&1
 
-echo "Building libcurl for iPhoneOS ${SDKVERSION} armv7, finished"
+echo "Building libcurl for ${PLATFORM} ${SDKVERSION} ${ARCH}, finished"
 #############
 
 #############
